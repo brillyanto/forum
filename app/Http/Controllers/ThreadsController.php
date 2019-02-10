@@ -12,4 +12,8 @@ class ThreadsController extends Controller
         $threads = Thread::latest()->get();
         return view('forum.index', compact('threads'));
     }
+
+    public function show(Thread $thread){
+        return view('forum.show', compact('thread'));
+    }
 }
