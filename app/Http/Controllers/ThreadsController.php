@@ -16,4 +16,5 @@ class ThreadsController extends Controller
     public function show(Thread $thread){
         return view('forum.show', compact('thread'));
     }
+    
 }

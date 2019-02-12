@@ -31,13 +31,12 @@ class ReadThreadsTest extends TestCase
         $response->assertSee($this->thread->title);
     }
 
-    public function test_a_thread_have_a_reply(){
+    public function test_a_thread_can_have_a_reply(){
 
         $reply = factory('App\Reply')
             ->create(['thread_id' => $this->thread->id]);
-            
-        $this->get('/threads/'.$this->thread->id)
-            ->assertSee($reply->body);
 
+        $this->get($this->thread->path())
+            ->assertSee($reply->body);
     }
 }
