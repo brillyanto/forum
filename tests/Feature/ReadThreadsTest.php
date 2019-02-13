@@ -27,7 +27,7 @@ class ReadThreadsTest extends TestCase
     }
 
     public function test_a_user_can_view_single_thread(){
-        $response = $this->get('/threads/'.$this->thread->id);
+        $response = $this->get('/threads/'.$this->thread->channel->id.'/'.$this->thread->id);
         $response->assertSee($this->thread->title);
     }
 

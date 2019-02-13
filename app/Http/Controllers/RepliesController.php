@@ -7,7 +7,7 @@ use App\Thread;
 
 class RepliesController extends Controller
 {
-    public function store(Thread $thread){
+    public function store($channel_slug, Thread $thread){
         
         $thread->addReply([
             'user_id' => auth()->id(),

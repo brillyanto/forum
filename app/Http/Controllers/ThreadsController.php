@@ -19,7 +19,7 @@ class ThreadsController extends Controller
         return view('forum.index', compact('threads'));
     }
 
-    public function show(Thread $thread){
+    public function show($channel_id, Thread $thread){
         return view('forum.show', compact('thread'));
     }
     
@@ -27,6 +27,7 @@ class ThreadsController extends Controller
 
         $thread = Thread::create([
             'user_id' => auth()->id(),
+            'channel_id' => $request->channel_id,
             'title' => $request->title,
             'body' => $request->body
         ]);
