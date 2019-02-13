@@ -13,7 +13,7 @@ class ReadThreadsTest extends TestCase
      *
      * @return void
      */
-    private $thread;
+    protected $thread;
 
     public function setUp(){
         parent::setUp();
