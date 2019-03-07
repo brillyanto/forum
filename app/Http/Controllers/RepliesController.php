@@ -7,11 +7,15 @@ use App\Thread;
 
 class RepliesController extends Controller
 {
-    public function store($channel_slug, Thread $thread){
+    public function store(Request $request, $channel_slug, Thread $thread){
         
+        $this->validate($request, [
+            'body' => 'required'
+        ]);
+
         $thread->addReply([
             'user_id' => auth()->id(),
-            'body' => request('body'),
+            'body' => $request->body,
         ]);
 
         return redirect()->back();

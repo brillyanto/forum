@@ -8,6 +8,8 @@ use App\Thread;
 
 class ReadThreadsTest extends TestCase
 {
+
+    use RefreshDatabase;
     /**
      * A basic test example.
      *

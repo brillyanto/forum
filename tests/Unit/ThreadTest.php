@@ -8,6 +8,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ThreadTest extends TestCase
 {
+
+    use RefreshDatabase;
+
     /**
      * A basic test example.
      *

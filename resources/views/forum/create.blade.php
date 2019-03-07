@@ -14,6 +14,7 @@
                         <div class="form-group">
                             <label for="title">Title</label>
                             <input class="form-control" type="text" name="title" id="title">
+                            <input type="hidden" name="channel_id">
                         </div>
                         <div class="form-group">
                             <label for="body">Message</label>

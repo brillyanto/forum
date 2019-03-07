@@ -9,6 +9,8 @@ use App\Reply;
 
 class UserTest extends TestCase
 {
+
+    use RefreshDatabase;
     /**
      * A basic test example.
      *

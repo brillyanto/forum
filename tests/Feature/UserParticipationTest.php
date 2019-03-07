@@ -9,6 +9,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserParticipationTest extends TestCase
 {
+
+    use RefreshDatabase;
+
     /**
      * A basic test example.
      *
@@ -27,4 +30,22 @@ class UserParticipationTest extends TestCase
              ->assertSee($reply->body);
 
     }
+
+    public function test_a_reply_requires_a_body(){
+        $this->be($user = factory('App\User')->create());
+        $thread = factory('App\Thread')->create();
+
+        $reply = factory('App\Reply')->make(['body' => null]);
+
+        $this->post($thread->path().'/replies', $reply->toArray())
+        ->assertSessionHasErrors('body');
+        
+        // $this->get($thread->path())
+        //      ->assertSee($reply->body);
+
+
+
+
+    }
+
 }
