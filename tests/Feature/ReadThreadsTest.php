@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Thread;
+use App\Channel;
 
 class ReadThreadsTest extends TestCase
 {
@@ -41,4 +42,17 @@ class ReadThreadsTest extends TestCase
         $this->get($this->thread->path())
             ->assertSee($reply->body);
     }
+
+    public function test_view_all_threads_by_its_channel_slug(){
+
+        $channel = factory(\App\Channel::class)->create();
+        $threadInChannel = factory(\App\Thread::class)->create(['channel_id' => $channel->id]);
+        $threadNotInChannel = factory(\App\Thread::class)->create();
+        
+        $this->get("/threads/{$channel->slug}")
+        ->assertSee($threadInChannel->title)
+        ->assertDontSee($threadNotInChannel->title);
+        
+    }
+
 }

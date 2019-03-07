@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Thread;
+use App\Channel;
 
 class ThreadsController extends Controller
 {
@@ -13,10 +14,16 @@ class ThreadsController extends Controller
         $this->middleware('auth')->only(['store','create']);
     }
 
-    public function index()
+    public function index(Channel $channel = null)
     {
-        $threads = Thread::latest()->get();
-        return view('forum.index', compact('threads'));
+        //dd('test');
+        if($channel == null) {
+            $threads = Thread::latest()->get();
+            return view('forum.index', compact('threads'));
+        } else{
+            $threads = Thread::whereChannelId($channel->id)->get();
+            return view('forum.index', compact('threads'));
+        }
     }
 
     public function show($channel_id, Thread $thread){
