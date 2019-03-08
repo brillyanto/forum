@@ -20,7 +20,7 @@
                             <label for="channel-id">Channel</label>
                             <select class="form-control" name="channel_id" id="channel-id">
                                 <option value="">--Choose--</option>
-                                @foreach(App\Channel::all() as $channel)
+                                @foreach($channels as $channel)
                                     <option value="{{$channel->id}}" {{ $channel->id == old('channel_id') ? 'selected' : ''}} > {{$channel->name}}</option>
                                 @endforeach
                             </select>
@@ -30,7 +30,7 @@
                             <label for="body">Message</label>
                             <textarea class="form-control" name="body" id="body" cols="30" rows="10"></textarea>
                         </div>
-                        
+
                         <input class="btn btn-primary" type="submit" value="submit">
 
                     </form>   
