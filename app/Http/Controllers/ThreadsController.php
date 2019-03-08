@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Thread;
 use App\Channel;
+use App\User;
 
 class ThreadsController extends Controller
 {
@@ -16,14 +17,25 @@ class ThreadsController extends Controller
 
     public function index(Channel $channel = null)
     {
-        //dd('test');
-        if($channel == null) {
-            $threads = Thread::latest()->get();
-            return view('forum.index', compact('threads'));
+
+        if($channel) {
+            $threads = Thread::whereChannelId($channel->id);
+            //return view('forum.index', compact('threads'));
         } else{
-            $threads = Thread::whereChannelId($channel->id)->get();
-            return view('forum.index', compact('threads'));
+            $threads = Thread::latest();
+            //return view('forum.index', compact('threads'));
         }
+        
+        $name = request()->query('by', null);
+        if($name){
+            $user = User::where('name', $name)->firstOrFail();
+            $threads->where('user_id', $user->id);
+        }
+
+        $threads = $threads->get();
+
+        return view('forum.index', compact('threads'));
+
     }
 
     public function show($channel_id, Thread $thread){
