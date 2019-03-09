@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Filters\ThreadFilters;
 use App\Thread;
 use App\Channel;
 use App\User;
@@ -15,24 +16,10 @@ class ThreadsController extends Controller
         $this->middleware('auth')->only(['store','create']);
     }
 
-    public function index(Channel $channel = null)
+    public function index(Channel $channel, ThreadFilters $filters)
     {
 
-        if($channel) {
-            $threads = Thread::whereChannelId($channel->id);
-            //return view('forum.index', compact('threads'));
-        } else{
-            $threads = Thread::latest();
-            //return view('forum.index', compact('threads'));
-        }
-        
-        $name = request()->query('by', null);
-        if($name){
-            $user = User::where('name', $name)->firstOrFail();
-            $threads->where('user_id', $user->id);
-        }
-
-        $threads = $threads->get();
+        $threads = $this->getThreads($channel, $filters);
 
         return view('forum.index', compact('threads'));
 
@@ -65,5 +52,16 @@ class ThreadsController extends Controller
         return view('forum.create');
     }
 
+
+    protected function getThreads(Channel $channel, ThreadFilters $filters){
+
+        $threads = Thread::latest()->filter($filters);
+
+        if($channel->exists) {
+            $threads->whereChannelId($channel->id);
+        } 
+
+        return $threads->get();
+    }
 
 }

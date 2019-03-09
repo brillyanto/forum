@@ -56,6 +56,8 @@ class ReadThreadsTest extends TestCase
     }
 
 
+
+
     public function test_an_user_can_view_thread_by_username(){
         $user = factory(\App\User::class)->create(['name' => 'John Doe']);
         $threadByJohnDoe = factory(\App\Thread::class)->create(['user_id' => $user->id]);
@@ -64,6 +66,11 @@ class ReadThreadsTest extends TestCase
         ->assertSee($threadByJohnDoe->title)
         ->assertDontSee($threadNotByJohnDoe->title);
     }
+
+
+
+
+
 
 
 }
