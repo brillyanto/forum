@@ -18,6 +18,17 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <style>
+        .level{
+            display:flex;
+        }
+        .flex{
+            flex:1;
+        }
+
+    </style>
+
 </head>
 <body>
     <div id="app">
