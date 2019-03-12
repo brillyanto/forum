@@ -77,7 +77,9 @@ class ReadThreadsTest extends TestCase
         factory('App\Reply', 3)->create(['thread_id' => $threadWithThreeReplies->id]);
 
         $response = $this->getJson('/threads?popular=1')->json();
-        
+
+       // dd(array_column($response, 'replies_count'));
+
         $this->assertEquals([3,2,0], array_column($response, 'replies_count'));
 
     }

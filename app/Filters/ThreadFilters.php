@@ -17,7 +17,8 @@ class ThreadFilters extends Filters {
 
     public function popular(){
 
-      //  $this->builder->getQuery()->orders = [];
+        // works on json request without this line dont know why
+        $this->builder->getQuery()->orders = [];
 
         return $this->builder->orderBy('replies_count', 'desc');
     }
