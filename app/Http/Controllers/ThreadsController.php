@@ -26,15 +26,19 @@ class ThreadsController extends Controller
     }
 
     public function show($channel_id, Thread $thread){
-        return view('forum.show', compact('thread'));
+        
+         return view('forum.show', [
+             'thread' => $thread,
+             'replies' => $thread->replies()->paginate(20)
+         ]);
     }
     
     public function store(Request $request){
-        
+
         $this->validate($request,[
-             'title' => 'required',
-             'body'  => 'required',
-             'channel_id' => 'required|exists:channels,id'
+            'title' => 'required',
+            'body'  => 'required',
+            'channel_id' => 'required|exists:channels,id'
         ]);
 
         $thread = Thread::create([
