@@ -19,6 +19,8 @@ class ThreadsController extends Controller
     public function index(Channel $channel, ThreadFilters $filters)
     {
 
+        
+
         $threads = $this->getThreads($channel, $filters);
 
        if(request()->wantsJson()){
@@ -30,7 +32,7 @@ class ThreadsController extends Controller
     }
 
     public function show($channel_id, Thread $thread){
-        
+
          return view('forum.show', [
              'thread' => $thread,
              'replies' => $thread->replies()->paginate(20)
