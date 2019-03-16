@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Thread extends Model
 {
     protected $guarded = [];
+    protected $with =['author','channel'];
 
     protected static function boot(){
         parent::boot();
@@ -22,7 +23,7 @@ class Thread extends Model
     }
 
     public function replies(){
-        return $this->hasMany('App\Reply')->withCount('favorites')->with('owner');
+        return $this->hasMany('App\Reply')->with('owner');
     }
 
     public function author(){
