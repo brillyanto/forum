@@ -18,9 +18,8 @@ class ThreadsController extends Controller
 
     public function index(Channel $channel, ThreadFilters $filters)
     {
-
-        $threads = $this->getThreads($channel, $filters);
-
+        
+       $threads = $this->getThreads($channel, $filters);
        if(request()->wantsJson()){
            return $threads;
        }

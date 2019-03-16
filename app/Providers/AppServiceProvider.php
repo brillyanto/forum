@@ -27,5 +27,14 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         \View::share('channels', Channel::all());
+
+        // Optional caching technique on loading channels variable for all views.
+        // $channels = \Cache::rememberForever('channels', function(){
+        //     return Channel::all();
+        // });
+        //
+        // $view->with('channels', $channels);
+        //
+        
     }
 }
