@@ -22,7 +22,7 @@ class Thread extends Model
     }
 
     public function replies(){
-        return $this->hasMany('App\Reply')->withCount('favorites');
+        return $this->hasMany('App\Reply')->withCount('favorites')->with('owner');
     }
 
     public function author(){
