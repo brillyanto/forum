@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header"><a href="#">{{$thread->author->name}}</a> posted {{$thread->title}}</div>
+            <div class="card-header"><a href="{{ route('profiles', $thread->author->name) }}">{{$thread->author->name}}</a> posted {{$thread->title}}</div>
                 <div class="card-body">
                     <article>
                         <div>{{$thread->body}}</div>
@@ -41,7 +41,7 @@
         <div class="col-md-4">
         <div class="card">
                 <div class="card-body">
-                    <p>Created {{ $thread->created_at->diffForHumans() }} by {{ $thread->author->name }}, and has {{ $thread->replies_count }} {{ str_plural('comment', $thread->replies_count)}}.</p>
+                    <p>Created {{ $thread->created_at->diffForHumans() }} by <a href="{{ route('profiles', $thread->author->name) }}">{{ $thread->author->name }}</a>, and has {{ $thread->replies_count }} {{ str_plural('comment', $thread->replies_count)}}.</p>
                 </div>
             </div>
         </div>
