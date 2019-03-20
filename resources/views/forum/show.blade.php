@@ -5,7 +5,25 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-            <div class="card-header"><a href="{{ route('profiles', $thread->author->name) }}">{{$thread->author->name}}</a> posted {{$thread->title}}</div>
+            <div class="card-header">
+                <div class="level">
+                    <span class="flex">
+                        <a href="{{ route('profiles', $thread->author->name) }}">{{$thread->author->name}}</a>
+                         posted {{$thread->title}}
+                    </span>
+                    @if(auth()->check())
+                    <span>
+                        <form action="{{ $thread->path() }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+
+                            <button class="btn btn-link" type="submit">Delete</button>        
+                        </form>
+                    </span>
+                    @endif
+                </div>
+                
+            </div>
                 <div class="card-body">
                     <article>
                         <div>{{$thread->body}}</div>

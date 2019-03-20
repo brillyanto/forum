@@ -42,10 +42,6 @@ class UserParticipationTest extends TestCase
         
         // $this->get($thread->path())
         //      ->assertSee($reply->body);
-
-
-
-
     }
 
 }

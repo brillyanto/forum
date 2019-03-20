@@ -31,6 +31,8 @@ class ThreadCreationTest extends TestCase
 
     public function test_authenticated_user_can_create_a_thread(){
 
+        
+
         $this->actingAs(factory('App\User')->create());
 
         $response = $this->post('/threads', $this->thread->toArray());
@@ -38,8 +40,26 @@ class ThreadCreationTest extends TestCase
         $this->get($response->headers->get('Location')) // returns the location url 
             ->assertSee($this->thread->title)
             ->assertSee($this->thread->body);
-
     }
+
+    public function test_guest_cannot_delete_a_thread(){
+        //$this->withoutExceptionHandling();
+        $thread = factory('App\Thread')->create();
+        $response = $this->delete($thread->path());
+        $response->assertRedirect('/login');
+    }
+
+    public function test_an_authenticated_user_can_delete_a_thread(){
+        $this->withoutExceptionHandling();
+        $this->actingAs(factory('App\User')->create());
+        $thread = factory('App\Thread')->create();
+        $reply = factory('App\Reply')->create(['thread_id' => $thread->id]);
+        $response = $this->json('DELETE', $thread->path());
+        $response->assertStatus(202);
+        $this->assertDatabaseMissing('threads', ['id' => $thread->id]);
+        $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+    }
+
 
     public function test_a_thread_requires_a_title(){
 

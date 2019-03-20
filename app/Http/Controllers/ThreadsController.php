@@ -13,7 +13,7 @@ class ThreadsController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->only(['store','create']);
+        $this->middleware('auth')->only(['store','create', 'destroy']);
     }
 
     public function index(Channel $channel, ThreadFilters $filters)
@@ -59,6 +59,18 @@ class ThreadsController extends Controller
         return view('forum.create');
     }
 
+    public function destroy(Channel $channel, Thread $thread){
+
+        if(auth()->check()){
+            $thread->replies()->delete();
+            $thread->delete();
+            if(request()->wantsJson()) return response('', 202);
+            else return redirect('/threads');
+        } else {
+            return redirect('/login');
+        }
+
+    }
 
     protected function getThreads(Channel $channel, ThreadFilters $filters){
 
@@ -70,5 +82,8 @@ class ThreadsController extends Controller
         
         return $threads->get();
     }
+
+
+
 
 }
