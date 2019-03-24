@@ -42,20 +42,28 @@ class ThreadCreationTest extends TestCase
             ->assertSee($this->thread->body);
     }
 
-    public function test_guest_cannot_delete_a_thread(){
+    public function test_unauthorised_users_maynot_delete_a_thread(){
         //$this->withoutExceptionHandling();
+        $user = factory('App\User')->create();
+
         $thread = factory('App\Thread')->create();
-        $response = $this->delete($thread->path());
-        $response->assertRedirect('/login');
+        $response = $this->delete($thread->path())->assertRedirect('/login');
+
+        $this->actingAs($user);
+        $response = $this->delete($thread->path())->assertStatus(403);
     }
 
-    public function test_an_authenticated_user_can_delete_a_thread(){
+    public function test_authenticated_user_can_delete_a_thread(){
         $this->withoutExceptionHandling();
-        $this->actingAs(factory('App\User')->create());
-        $thread = factory('App\Thread')->create();
+
+        $user = factory('App\User')->create();
+        $this->actingAs($user);
+
+        $thread = factory('App\Thread')->create(['user_id' => $user->id]);
         $reply = factory('App\Reply')->create(['thread_id' => $thread->id]);
         $response = $this->json('DELETE', $thread->path());
         $response->assertStatus(202);
+
         $this->assertDatabaseMissing('threads', ['id' => $thread->id]);
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
     }

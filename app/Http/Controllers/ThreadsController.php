@@ -61,14 +61,14 @@ class ThreadsController extends Controller
 
     public function destroy(Channel $channel, Thread $thread){
 
-        if(auth()->check()){
-            $thread->replies()->delete();
-            $thread->delete();
-            if(request()->wantsJson()) return response('', 202);
-            else return redirect('/threads');
-        } else {
-            return redirect('/login');
-        }
+        $this->authorize('update', $thread);
+
+        $thread->replies()->delete();
+        $thread->delete();
+
+        if(request()->wantsJson()) return response('', 202);
+
+        return redirect('/threads');
 
     }
 
@@ -79,7 +79,7 @@ class ThreadsController extends Controller
         if($channel->exists) {
             $threads->whereChannelId($channel->id);
         } 
-        
+
         return $threads->get();
     }
 
