@@ -24,7 +24,7 @@ trait RecordsActivity{
 
         $this->activity()->create([
             'user_id' => auth()->id(),
-            'type'  => $event.'_'. class_basename($this),
+            'type'  => $event.'_'. strtolower(class_basename($this)),
         ]);
         // Activity::create([
         //     'subject_id' => $this->id,

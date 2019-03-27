@@ -7,27 +7,15 @@
         <h3>{{ $user->name}}</h3> since {{$user->created_at->diffForHumans() }}
     </div>
     <hr>
-    @foreach($threads as $thread)
-    <div class="card mb-1">
-        <div class="card-header">
-            <div class="level">
-                <div class="flex">
-                <a href="{{ url($thread->path()) }}">{{ $thread->title }}</a>
-                </div>
-                <div>
-                    Posted {{ $thread->created_at->diffForHumans() }}
-                </div>
-            </div>
-        </div>
-        <div class="card-body">
-            {{ $thread->body }}
-        </div>
-    </div>
+    @foreach($activities as $date => $activityCollection)
+        <h3>{{ $date }}</h3>
+        @foreach($activityCollection as $activity)
+            @include('profiles.activities.'. $activity->type )
+        @endforeach
     @endforeach
 
-    {{ $threads->links() }}
+    {{-- {{ $threads->links() }} --}}
     
-
 </div>
 
 @endsection
