@@ -10,7 +10,7 @@ use App\Thread;
 class ThreadCreationTest extends TestCase
 {
 
-    // use RefreshDatabase;
+    use RefreshDatabase;
 
     protected $thread;
 
