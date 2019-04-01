@@ -64,6 +64,7 @@ class ActivityTest extends TestCase
         $this->assertTrue($feed->keys()->contains(
             Carbon::now()->subWeek()->format('Y-m-d')
         ));
+        
     }
 
 }

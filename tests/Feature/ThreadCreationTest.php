@@ -10,7 +10,7 @@ use App\Thread;
 class ThreadCreationTest extends TestCase
 {
 
-    use RefreshDatabase;
+    // use RefreshDatabase;
 
     protected $thread;
 
@@ -53,7 +53,7 @@ class ThreadCreationTest extends TestCase
     }
 
     public function test_authenticated_user_can_delete_a_thread(){
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
 
         // $user = factory('App\User')->create();
         // $this->be($user);
@@ -66,10 +66,20 @@ class ThreadCreationTest extends TestCase
 
         $this->assertDatabaseMissing('threads', ['id' => $thread->id]);
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+
         $this->assertDatabaseMissing('activities',[
              'subject_id' => $thread->id,
-             'subject_type' => get_class($thread)
+             'subject_type' => get_class($thread),
+            //  'type' => 'created_thread'
+
         ]);
+
+        $this->assertDatabaseMissing('activities',[
+            'subject_id' => $reply->id,
+            'subject_type' => get_class($reply),
+            // 'type' => 'created_reply'
+        ]);
+
     }
 
 

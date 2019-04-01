@@ -19,6 +19,14 @@ class Thread extends Model
         static::addGlobalScope('repliesCount', function($builder){
             $builder->withCount('replies');
         });
+
+        static::deleting(function($thread){
+            //$thread->replies()->delete(); // this doesnot trigger the deleting model event on reply model
+            // $thread->replies->each(function($reply){
+            //     $reply->delete(); // this line trigger deleting model even on reply model, registered using recordsactivity trait
+            // });
+            $thread->replies->each->delete();
+        });
     }
 
     public function path(){
