@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Thread;
 
 class ThreadCreationTest extends TestCase
 {
@@ -14,25 +15,23 @@ class ThreadCreationTest extends TestCase
     protected $thread;
 
     public function setUp(){
-        parent::setUp();
+        parent::setUp(); // refreshing the db and migrate on each test cases
+        $this->be(factory(\App\User::class)->create()); // mandatory to let the application know a user has been logged in, if parent::setUp() exists.
         $this->thread = factory('App\Thread')->make();
     }
 
     public function test_a_guest_cannot_create_a_thread(){
-
+        auth()->logout();
         $this->post('/threads', $this->thread->toArray())
              ->assertRedirect('/login');
 
         $this->get('/threads/create')
              ->assertSee('/login');
-
     }
 
 
     public function test_authenticated_user_can_create_a_thread(){
-
         
-
         $this->actingAs(factory('App\User')->create());
 
         $response = $this->post('/threads', $this->thread->toArray());
@@ -47,25 +46,30 @@ class ThreadCreationTest extends TestCase
         $user = factory('App\User')->create();
 
         $thread = factory('App\Thread')->create();
-        $response = $this->delete($thread->path())->assertRedirect('/login');
-
+        $response = $this->delete($thread->path())->assertStatus(403); // 403 returned by the authorization
+ 
         $this->actingAs($user);
-        $response = $this->delete($thread->path())->assertStatus(403);
+        $response = $this->delete($thread->path())->assertStatus(403); // 403 returned by the authorization
     }
 
     public function test_authenticated_user_can_delete_a_thread(){
         $this->withoutExceptionHandling();
 
-        $user = factory('App\User')->create();
-        $this->actingAs($user);
+        // $user = factory('App\User')->create();
+        // $this->be($user);
 
-        $thread = factory('App\Thread')->create(['user_id' => $user->id]);
+        $thread = factory('App\Thread')->create(['user_id' => auth()->id()]);
         $reply = factory('App\Reply')->create(['thread_id' => $thread->id]);
+
         $response = $this->json('DELETE', $thread->path());
-        $response->assertStatus(202);
+        $response->assertStatus(204);
 
         $this->assertDatabaseMissing('threads', ['id' => $thread->id]);
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+        $this->assertDatabaseMissing('activities',[
+             'subject_id' => $thread->id,
+             'subject_type' => get_class($thread)
+        ]);
     }
 
 

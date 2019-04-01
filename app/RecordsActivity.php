@@ -7,8 +7,8 @@ trait RecordsActivity{
     protected static function bootRecordsActivity(){
 
         // skip recording activities for guests
-        if(auth()->guest()) return;
-
+        if(auth()->guest()) { return; } 
+       
         foreach(static::getActivitiesToRecord() as $event){
             static::$event(function($model) use ($event){
                 $model->recordActivity($event);
@@ -22,11 +22,15 @@ trait RecordsActivity{
 
     protected function recordActivity($event){
 
+       // dump('recording activity : '. $event.'_'.class_basename($this));
         $this->activity()->create([
             'user_id' => auth()->id(),
             'type'  => $event.'_'. strtolower(class_basename($this)),
         ]);
+        
         // Activity::create([
+        //     'user_id' => auth()->id(),
+        //     'type'  => $event.'_'. strtolower(class_basename($this)),
         //     'subject_id' => $this->id,
         //     'subject_type' => get_class($this)
         // ]);
