@@ -18,6 +18,6 @@ class RepliesController extends Controller
             'body' => $request->body,
         ]);
 
-        return redirect()->back();
+        return redirect()->back()->with('flash', 'Your reply has been created!');
     }
 }
