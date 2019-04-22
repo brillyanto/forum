@@ -36,6 +36,3 @@ Vue.component('flash', require('./components/flash.vue').default);
 const app = new Vue({
     el: '#app'
 });
-
-
-

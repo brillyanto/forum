@@ -27,18 +27,19 @@ trait RecordsActivity{
 
     protected function recordActivity($event){
 
-       // dump('recording activity : '. $event.'_'.class_basename($this));
+        // dump('recording activity : '. $event.'_'.class_basename($this));
         $this->activity()->create([
             'user_id' => auth()->id(),
             'type'  => $event.'_'. strtolower(class_basename($this)),
         ]);
-        
+
         // Activity::create([
         //     'user_id' => auth()->id(),
         //     'type'  => $event.'_'. strtolower(class_basename($this)),
         //     'subject_id' => $this->id,
         //     'subject_type' => get_class($this)
         // ]);
+
     }
 
     public function activity(){
