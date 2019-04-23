@@ -41,7 +41,26 @@ class UserParticipationTest extends TestCase
         ->assertSessionHasErrors('body');
         
         // $this->get($thread->path())
-        //      ->assertSee($reply->body);
+        // ->assertSee($reply->body);
     }
 
+    public function test_unauthorized_users_cannot_delete_replies(){
+        // $this->withoutExceptionHandling();
+        $reply = factory('App\Reply')->create();
+        $this->delete("/replies/{$reply->id}")
+        ->assertRedirect('login');
+
+        $user = factory('App\User')->create();
+        $this->be($user);
+        $this->delete("/replies/{$reply->id}")
+        ->assertStatus(403);
+    }
+
+    public function test_authenticated_users_can_delete_their_replies(){
+        $user = factory('App\User')->create();
+        $this->be($user);
+        $reply = factory('App\Reply')->create(['user_id' => auth()->id()]);
+        $this->delete("replies/{$reply->id}");
+        $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+    }
 }
