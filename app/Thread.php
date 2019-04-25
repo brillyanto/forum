@@ -26,6 +26,7 @@ class Thread extends Model
             // });
             $thread->replies->each->delete();
         });
+        
     }
 
     public function path(){
