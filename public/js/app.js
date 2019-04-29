@@ -1830,6 +1830,12 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.editing = false;
       flash('updated!');
+    },
+    destroy: function destroy() {
+      axios["delete"]('/replies/' + this.attributes.id);
+      $(this.$el).fadeOut(300, function () {
+        flash('The reply has been deleted');
+      });
     }
   }
 });
