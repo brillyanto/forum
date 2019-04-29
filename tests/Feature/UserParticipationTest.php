@@ -63,4 +63,32 @@ class UserParticipationTest extends TestCase
         $this->delete("replies/{$reply->id}");
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
     }
+
+    public function test_unauthorized_users_cannot_update_replies(){
+        $reply = factory('App\Reply')->create();
+        $this->delete("/replies/{$reply->id}")
+        ->assertRedirect('login');
+
+        $user = factory('App\User')->create();
+        $this->be($user);
+        $this->patch("/replies/{$reply->id}",['body' => "test"])
+        ->assertStatus(403);
+    }
+
+
+    public function test_authorized_users_can_update_their_replies(){
+
+        $this->withoutExceptionHandling();
+
+        $user = factory('App\User')->create();
+        $this->be($user);
+
+        $reply = factory('App\Reply')->create(['user_id' => auth()->id()]);
+
+        $updatedReply = 'You have changed!';
+        $this->patch("/replies/{$reply->id}", ['body' => $updatedReply]);
+
+        $this->assertDatabaseHas('replies', ['id' => $reply->id, 'body' => $updatedReply ]);
+    }
+
 }
