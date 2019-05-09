@@ -7,16 +7,16 @@
                     created at {{$reply->created_at->diffForHumans()}}
                 </div>
                 <div>
-                    <form action="{{ url('/replies/'.$reply->id.'/favorite') }}" method="post">
+                    <favorite :reply="{{ $reply }}"></favorite>
+                    {{-- <form action="{{ url('/replies/'.$reply->id.'/favorite') }}" method="post">
                         @csrf()
                         <input class="btn btn-sm btn-default" {{ ($reply->isFavorited()) ? 'disabled' : '' }} type="submit" value="{{ $reply->favorites_count }} {{ str_plural('Favorite', $reply->favorites_count )}}">
-                    </form>
+                    </form> --}}
                 </div>
             </div>
         </div>
 
         <div class="card-body">
-
             <div v-if="editing">
                 <div class="form-group">
                     <textarea class="form-control" name="editreply" id="editreply" v-model="body"></textarea>
@@ -24,10 +24,7 @@
                 <button class="btn btn-sm btn-primary" @click="update">Update</button>
                 <button class="btn btn-sm btn-link" @click="editing = false">Cancel</button>
             </div>
-
-            <article v-else v-text="body">
-            </article>
-
+            <article v-else v-text="body"></article>
         </div>
 
         @can('update', $reply)
@@ -41,5 +38,6 @@
             </form> --}}
         </div>
         @endcan
+
     </div>
 </reply>

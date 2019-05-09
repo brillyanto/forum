@@ -30,6 +30,7 @@ Route::get('/threads/create', 'ThreadsController@create');
 Route::get('/threads/{channel}', 'ThreadsController@index');
 
 Route::post('/replies/{reply}/favorite', 'FavoritesController@store');
+Route::delete('/replies/{reply}/favorite', 'FavoritesController@destroy');
 
 Route::get('/profiles/{user}', 'ProfilesController@show')->name('profiles');
 

@@ -11,6 +11,7 @@ class Reply extends Model
 
     protected $guarded = [];
     protected $with = ['favorites'];
+    protected $appends = ['favoritesCount', 'isFavorited'];
 
     protected static function boot(){
         parent::boot();
