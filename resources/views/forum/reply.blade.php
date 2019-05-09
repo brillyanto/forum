@@ -1,18 +1,17 @@
 <reply :attributes="{{ $reply }}" inline-template v-cloak>
     <div id="reply-{{ $reply->id }}" class="card mt-2">
+        
         <div class="card-header">
             <div class="level">
                 <div class="flex">
                 <a href="{{ route('profiles', $reply->owner->name )}}">{{$reply->owner->name}}</a>
                     created at {{$reply->created_at->diffForHumans()}}
                 </div>
+                @if(Auth::check())
                 <div>
                     <favorite :reply="{{ $reply }}"></favorite>
-                    {{-- <form action="{{ url('/replies/'.$reply->id.'/favorite') }}" method="post">
-                        @csrf()
-                        <input class="btn btn-sm btn-default" {{ ($reply->isFavorited()) ? 'disabled' : '' }} type="submit" value="{{ $reply->favorites_count }} {{ str_plural('Favorite', $reply->favorites_count )}}">
-                    </form> --}}
                 </div>
+                @endif
             </div>
         </div>
 

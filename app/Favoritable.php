@@ -18,7 +18,15 @@ trait Favoritable{
 
     public function unfavorite(){
         $attributes = ['user_id' => auth()->id()];
-        $this->favorites()->where($attributes)->delete();
+
+       // $this->favorites()->where($attributes)->delete(); // this will not fire the model events on favorite model
+
+        // $this->favorites()->where($attributes)->get()->each(function($favorite){
+        //     $favorite->delete();
+        // });
+
+        $this->favorites()->where($attributes)->each->delete(); // alternate method to fire model events
+
     }
 
     public function isFavorited(){
