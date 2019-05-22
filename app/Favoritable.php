@@ -24,8 +24,8 @@ trait Favoritable{
         // $this->favorites()->where($attributes)->get()->each(function($favorite){
         //     $favorite->delete();
         // });
-
-        $this->favorites()->where($attributes)->each->delete(); // alternate method to fire model events
+            
+        $this->favorites()->where($attributes)->get()->each->delete(); // alternate method to fire model events
 
     }
 

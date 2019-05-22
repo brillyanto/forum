@@ -24,7 +24,7 @@ class ThreadsController extends Controller
            return $threads;
        }
 
-        return view('forum.index', compact('threads'));
+       return view('forum.index', compact('threads'));
 
     }
 
@@ -35,7 +35,7 @@ class ThreadsController extends Controller
              'replies' => $thread->replies()->paginate(20)
          ]);
     }
-    
+
     public function store(Request $request){
 
         $this->validate($request,[

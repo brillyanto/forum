@@ -26,7 +26,15 @@ window.flash = function(message){
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('flash', require('./components/Flash.vue').default);
-Vue.component('reply', require('./components/Reply.vue').default);
+Vue.component('thread-view', require('./pages/Thread.vue').default);
+
+// to call use, this.authorize(functionName)
+Vue.prototype.authorize = function(handler){
+    // window.app.user is the default user as argument pass through this function.
+    // return true; // override triggering the handler function
+    let user = window.App.user;
+    user ? handler(user) : false;
+};
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
