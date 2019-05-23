@@ -33,7 +33,7 @@ Vue.prototype.authorize = function(handler){
     // window.app.user is the default user as argument pass through this function.
     // return true; // override triggering the handler function
     let user = window.App.user;
-    user ? handler(user) : false;
+    return user ? handler(user) : false;
 };
 
 /**
