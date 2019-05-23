@@ -4,7 +4,7 @@
             <reply :data="reply" @deleted="remove(index)"></reply>
         </div>
 
-        <new-reply :created="add" :endpoint="endpoint"></new-reply>
+        <new-reply @created="add" :endpoint="endpoint"></new-reply>
 
     </div>
 </template>
@@ -30,6 +30,7 @@
             add(dd){
                 this.items.push(dd);
                 this.$emit('added');
+                flash('reply was added');
             },
             remove(index){
                 this.items.splice(index, 1);

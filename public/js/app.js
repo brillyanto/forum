@@ -1900,7 +1900,6 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (_ref) {
         var data = _ref.data;
         _this.body = '';
-        flash('Your reply has been posted');
 
         _this.$emit('created', data);
       });
@@ -1954,6 +1953,7 @@ __webpack_require__.r(__webpack_exports__);
     add: function add(dd) {
       this.items.push(dd);
       this.$emit('added');
+      flash('reply was added');
     },
     remove: function remove(index) {
       this.items.splice(index, 1);
@@ -38179,7 +38179,10 @@ var render = function() {
         )
       }),
       _vm._v(" "),
-      _c("new-reply", { attrs: { created: _vm.add, endpoint: _vm.endpoint } })
+      _c("new-reply", {
+        attrs: { endpoint: _vm.endpoint },
+        on: { created: _vm.add }
+      })
     ],
     2
   )
