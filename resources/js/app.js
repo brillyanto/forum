@@ -27,6 +27,7 @@ window.flash = function(message){
 
 Vue.component('flash', require('./components/Flash.vue').default);
 Vue.component('thread-view', require('./pages/Thread.vue').default);
+Vue.component('paginator', require('./components/Paginator.vue').default);
 
 // to call use, this.authorize(functionName)
 Vue.prototype.authorize = function(handler){
