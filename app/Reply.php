@@ -18,6 +18,15 @@ class Reply extends Model
             $reply->favorites->each->delete(); // this triggers the delete model event on Favorites model
             // $reply->favorites()->delete(); // this does not triggers the model events on Favorites model
         });
+
+        static::created(function($reply){
+            $reply->thread->increment('replies_count');
+        });
+
+        static::deleted(function($reply){
+            $reply->thread->decrement('replies_count');
+        });
+
     }
 
     public function owner(){

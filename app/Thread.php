@@ -15,9 +15,13 @@ class Thread extends Model
 
     protected static function boot(){
         parent::boot();
-        static::addGlobalScope('repliesCount', function($builder){
-            $builder->withCount('replies');
-        });
+
+        // initial approach
+        // static::addGlobalScope('repliesCount', function($builder){
+        //     $builder->withCount('replies');
+        // });
+
+        
 
         static::deleting(function($thread){
             //$thread->replies()->delete(); // this doesnot trigger the deleting model event on reply model

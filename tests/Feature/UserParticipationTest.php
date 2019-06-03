@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class UserParticipationTest extends TestCase
 {
 
-    use RefreshDatabase;
+    // use RefreshDatabase;
 
     /**
      * A basic test example.
@@ -25,9 +25,15 @@ class UserParticipationTest extends TestCase
         $reply = factory('App\Reply')->make();
 
         $this->post($thread->path().'/replies', $reply->toArray());
-        
-        $this->get($thread->path())
-             ->assertSee($reply->body);
+
+        // reply is not visible on the php. the replies are loaded on vue component
+        //$this->get($thread->path())->assertSee($reply->body); 
+
+        $this->assertDatabaseHas('replies', ['body' => $reply->body]);
+
+        // dd($thread->fresh()->replies_count);
+
+        $this->assertEquals(1, $thread->fresh()->replies_count);
 
     }
 
@@ -62,6 +68,9 @@ class UserParticipationTest extends TestCase
         $reply = factory('App\Reply')->create(['user_id' => auth()->id()]);
         $this->delete("replies/{$reply->id}");
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+
+        // the call to fresh() is important to call the fresh data
+        $this->assertEquals(0, $reply->thread->fresh()->replies_count);
     }
 
     public function test_unauthorized_users_cannot_update_replies(){
