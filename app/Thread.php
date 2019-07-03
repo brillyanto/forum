@@ -74,6 +74,4 @@ class Thread extends Model
         return $this->hasMany(ThreadSubscription::class);
     }
 
-
-
 }
