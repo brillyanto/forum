@@ -40,4 +40,7 @@ Route::delete('/replies/{reply}', 'RepliesController@destroy');
 Route::patch('/replies/{reply}', 'RepliesController@update');
 
 // subscriptions
-Route::post('/threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionsController@store');
+Route::post('/threads/{channel}/{thread}/subscriptions', 
+'ThreadSubscriptionsController@store');
+Route::delete('/threads/{channel}/{thread}/subscriptions', 
+'ThreadSubscriptionsController@destroy');

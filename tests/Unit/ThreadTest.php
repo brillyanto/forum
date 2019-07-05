@@ -52,12 +52,19 @@ class ThreadTest extends TestCase
     }
 
     function test_a_thread_can_be_unsubscribed_from(){
-        $thread = create('App\Thread');
+        $thread = factory('App\Thread')->create();
         $user_id = 1;
         $thread->subscribe($user_id);
         $thread->unsubscribe($user_id);
         $this->assertCount(0, $thread->subscriptions);
+    }
 
+    function test_it_knows_if_the_authenticated_user_is_subscribed_to_it(){
+        $thread = factory('App\Thread')->create();
+        $this->be(factory('App\User')->create());
+        $this->assertFalse($thread->isSubscribedTo);
+        $thread->subscribe();
+        $this->assertTrue($thread->isSubscribedTo);
     }
 
 }

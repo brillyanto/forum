@@ -17,7 +17,6 @@
                         <form action="{{ $thread->path() }}" method="POST">
                             @csrf
                             @method('DELETE')
-
                             <button class="btn btn-link" type="submit">Delete</button>        
                         </form>
                     </span>
@@ -31,23 +30,21 @@
                     </article>
                 </div>
             </div>
-            
             <replies @added="repliesCount++" @removed="repliesCount--"></replies>
-
             <br>
-
             {{-- {{  $replies->links() }} --}}
-            
-
         </div>
         <div class="col-md-4">
-        <div class="card">
+            <div class="card">
                 <div class="card-body">
                     <p>Created {{ $thread->created_at->diffForHumans() }} by 
-                        <a href="{{ route('profiles', $thread->author->name) }}">
-                            {{ $thread->author->name }}</a>, 
-                            and has <span v-text="repliesCount">
-                                </span> {{ str_plural('comment', $thread->replies_count)}}.</p>
+                    <a href="{{ route('profiles', $thread->author->name) }}">
+                    {{ $thread->author->name }}</a>, 
+                    and has <span v-text="repliesCount">
+                    </span> {{ str_plural('comment', $thread->replies_count)}}.</p>
+                    <p>
+                    <subscribe-button :active="{{ json_encode($thread->isSubscribedTo) }}"></subscribe-button>
+                    </p>
                 </div>
             </div>
         </div>

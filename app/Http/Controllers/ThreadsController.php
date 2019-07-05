@@ -29,7 +29,7 @@ class ThreadsController extends Controller
     }
 
     public function show($channel_id, Thread $thread){
-         return view('forum.show', compact('thread'));
+        return view('forum.show', compact('thread'));
     }
 
     public function store(Request $request){
