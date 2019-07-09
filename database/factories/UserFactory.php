@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
+use Illuminate\Notifications\DatabaseNotification;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +59,12 @@ $factory->define(App\Reply::class, function(Faker $faker){
             return factory(App\Thread::class)->create()->id;
         },
         'body' => $faker->paragraph()
+    ];
+});
+
+$factory->define(DatabaseNotification::class, function(Faker $faker){
+    return [
+        
     ];
 });
 

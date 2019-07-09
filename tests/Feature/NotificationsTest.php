@@ -10,9 +10,14 @@ class NotificationsTest extends TestCase
 {
     use RefreshDatabase;
     
+    public function setUp(){
+        parent::setUp();
+        $this->be(factory('App\User')->create());
+    }
+
     function test_a_notification_is_prepared_when_a_subscribed_thread_receives_a_new_reply(){
 
-        $this->be(factory('App\User')->create());
+        
         $thread = factory('App\Thread')->create();
 
         $thread->subscribe();
@@ -38,8 +43,8 @@ class NotificationsTest extends TestCase
     }
 
     function test_a_user_can_mark_as_read_a_notification(){
-        $this->withoutExceptionHandling();
-        $this->be(factory('App\User')->create());
+        
+        
         $thread = factory('App\Thread')->create();
 
         $thread->subscribe();
@@ -63,7 +68,7 @@ class NotificationsTest extends TestCase
     }
 
     function test_a_user_can_fetch_their_unread_notifications(){
-        $this->be(factory('App\User')->create());
+        
         $thread = factory('App\Thread')->create();
         $thread->subscribe();
         // reply created by somebody else should get notifications
