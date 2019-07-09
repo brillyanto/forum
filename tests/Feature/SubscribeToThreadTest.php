@@ -22,12 +22,10 @@ class SubscribeToThreadTest extends TestCase
         $thread = factory('App\Thread')->create();
         $this->post($thread->path() . '/subscriptions');
 
-        $thread->addReply([
-            'user_id' => auth()->id(),
-            'body' => 'Some reply here'
-        ]);
-        // issue a notification to the user
-        // $this->assertCount(1, $thread->subscriptions);
+        $this->assertCount(1, $thread->subscriptions);
+
+        
+
     }
 
     public function test_a_user_can_unsubscribe_from_thread(){

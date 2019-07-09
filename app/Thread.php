@@ -4,6 +4,7 @@ namespace App;
 
 use App\Filters\ThreadFilters;
 use Illuminate\Database\Eloquent\Model;
+use App\Notifications\ThreadWasUpdated;
 
 class Thread extends Model
 {
@@ -45,7 +46,23 @@ class Thread extends Model
     }
 
     public function addReply($reply){
-       return $this->replies()->create($reply);
+        $reply = $this->replies()->create($reply);
+
+        // prepare notifications for all the subscribers
+        // Method 1
+        // foreach($this->subscriptions as $subscription){
+        //     // allow only for other users not for self
+        //     if($subscription->user_id != $reply->user_id){
+        //         $subscription->notify($reply);
+        //     }
+        // }
+
+        // Method 2
+        $this->subscriptions->filter(function ($sub) use ($reply){
+            return $sub->user_id != $reply->user_id;
+        })->each->notify($reply);
+
+        return $reply;
     }
 
     public function channel(){
@@ -60,6 +77,7 @@ class Thread extends Model
         $this->subscriptions()->create([
             'user_id' => $userId ?: auth()->id()
         ]);
+        return $this;
     }
 
     public function unsubscribe($userId = null){
